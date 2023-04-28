@@ -1,15 +1,15 @@
 import express, { Express, Request, Response } from 'express';
 import { config } from './config';
 import cors from 'cors';
-
+import mysql from 'mysql2/promise';
 import memoRoutes from './routes/memoRouter';
+
 const app: Express = express();
 app.use(cors());
 app.use(express.json());
 
 //Link to database
-const mysql = require('mysql2/promise');
-const db = mysql.createPool(config.db);
+export const db = mysql.createPool(config.db);
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello there !');
 });
