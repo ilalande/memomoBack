@@ -16,7 +16,8 @@
     "@prisma/client": "^4.10.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mysql2": "^3.2.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
@@ -24,7 +25,6 @@
     "@types/node": "^18.13.0",
     "concurrently": "^7.6.0",
     "nodemon": "^2.0.20",
-    "prisma": "^4.10.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2",
     "tsup": "^6.6.2",

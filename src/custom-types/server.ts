@@ -1,3 +1,9 @@
 export interface Config {
-  PORT: string | undefined;
+  db: {
+    host: string | undefined;
+    user: string | undefined;
+    password: string | undefined;
+    database: string | undefined;
+  };
+  port: string | undefined;
 }
