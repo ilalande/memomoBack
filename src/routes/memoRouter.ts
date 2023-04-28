@@ -12,6 +12,18 @@ memoRouter.get('/', async (req, res) => {
   );
   res.json(memos);
 });
+memoRouter.get('/byboard/:boardId', async (req, res) => {
+  const { boardId } = req.params;
+  console.log(boardId);
+  const [memos] = await db.query(
+    `SELECT memo.id,board.board_name,memo.memo_board_id, colour.colour_name , memo.memo_content 
+    FROM memo 
+    LEFT JOIN colour ON memo.memo_colour_id=colour.id LEFT JOIN board ON memo.memo_board_id=board.id
+    WHERE board.id=?;`,
+    [parseInt(boardId)]
+  );
+  res.json(memos);
+});
 
 memoRouter.get('/:id', async (req, res) => {
   const { id } = req.params;
@@ -19,8 +31,9 @@ memoRouter.get('/:id', async (req, res) => {
   try {
     const [memo] = await db.query(
       `
-      SELECT *
-      FROM memo 
+      SELECT memo.id,board.board_name, colour.colour_name , memo.memo_content 
+    FROM memo 
+    LEFT JOIN colour ON memo.memo_colour_id=colour.id LEFT JOIN board ON memo.memo_board_id=board.id
       WHERE id=?
     `,
       [parseInt(id)]
