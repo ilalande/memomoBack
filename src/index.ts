@@ -3,6 +3,7 @@ import { config } from './config';
 import cors from 'cors';
 import mysql from 'mysql2/promise';
 import memoRoutes from './routes/memoRouter';
+import memoBoardRouter from './routes/memoBoardRouter';
 
 const app: Express = express();
 app.use(cors());
@@ -19,3 +20,4 @@ app.listen(config.port, () =>
 );
 
 app.use('/memos', memoRoutes);
+app.use('/boards', memoBoardRouter);

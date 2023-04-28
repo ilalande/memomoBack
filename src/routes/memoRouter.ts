@@ -35,7 +35,6 @@ memoRouter.get('/:id', async (req, res) => {
 });
 
 memoRouter.post('/', async (req, res) => {
-  console.log(req.body);
   const { colour, content, board } = req.body;
 
   const resSql = await db.query(
