@@ -21,7 +21,25 @@ memoRouter.get('/', async (req, res) => {
     res.status(404).send();
   }
 });
-memoRouter.get('/byboard/:boardId', async (req, res) => {
+memoRouter.get('/byboardname/:boardName', async (req, res) => {
+  const { boardName } = req.params;
+  try {
+    const [memos] = await db.query(
+      `SELECT memo.id,board.board_name,memo.memo_board_id, colour.colour_name , memo.memo_content 
+    FROM memo 
+    LEFT JOIN colour ON memo.memo_colour_id=colour.id LEFT JOIN board ON memo.memo_board_id=board.id
+    WHERE board.board_name=?;`,
+      [boardName]
+    );
+    if (memos) res.json(memos);
+    else throw new Error('No memo found wit this board id!');
+  } catch (err) {
+    console.warn(err);
+    res.status(404).send();
+  }
+});
+
+memoRouter.get('/byboardid/:boardId', async (req, res) => {
   const { boardId } = req.params;
   try {
     const [memos] = await db.query(
@@ -29,9 +47,8 @@ memoRouter.get('/byboard/:boardId', async (req, res) => {
     FROM memo 
     LEFT JOIN colour ON memo.memo_colour_id=colour.id LEFT JOIN board ON memo.memo_board_id=board.id
     WHERE board.id=?;`,
-      [parseInt(boardId)]
+      [boardId]
     );
-    console.log(memos);
     if (memos) res.json(memos);
     else throw new Error('No memo found wit this board id!');
   } catch (err) {

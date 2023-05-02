@@ -18,6 +18,40 @@ memoBoardRouter.get('/', async (req, res) => {
   }
 });
 
+memoBoardRouter.get('/byboardname/:boardName', async (req, res) => {
+  const { boardName } = req.params;
+  try {
+    const [boardDatas] = await db.query(
+      `SELECT board.id, board.board_name
+    FROM board
+    WHERE board.board_name=?;`,
+      [boardName]
+    );
+    if (boardDatas) res.json(boardDatas);
+    else throw new Error('No board found wit this board name!');
+  } catch (err) {
+    console.warn(err);
+    res.status(404).send();
+  }
+});
+
+memoBoardRouter.get('/byboardid/:boardId', async (req, res) => {
+  const { boardId } = req.params;
+  try {
+    const [boardDatas] = await db.query(
+      `SELECT board.id, board.board_name
+    FROM board
+    WHERE board.id=?;`,
+      [boardId]
+    );
+    if (boardDatas) res.json(boardDatas);
+    else throw new Error('No board found wit this board name!');
+  } catch (err) {
+    console.warn(err);
+    res.status(404).send();
+  }
+});
+
 memoBoardRouter.post('/', async (req, res) => {
   const { boardName } = req.body;
   //In databse, board_name is unique
