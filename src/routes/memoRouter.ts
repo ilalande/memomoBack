@@ -8,7 +8,7 @@ const memoRouter = Router();
 memoRouter.get('/', async (req, res) => {
   try {
     const [memos] = await db.query(
-      `SELECT memo.id,board.board_name, colour.colour_name , memo.memo_content 
+      `SELECT memo.id,board.board_name, memo.memo_colour_id, colour.colour_name , memo.memo_content 
     FROM memo 
     LEFT JOIN colour ON memo.memo_colour_id=colour.id LEFT JOIN board ON memo.memo_board_id=board.id;`
     );
@@ -25,7 +25,7 @@ memoRouter.get('/byboardname/:boardName', async (req, res) => {
   const { boardName } = req.params;
   try {
     const [memos] = await db.query(
-      `SELECT memo.id,board.board_name,memo.memo_board_id, colour.colour_name , memo.memo_content 
+      `SELECT memo.id,board.board_name,memo.memo_board_id, memo.memo_colour_id, colour.colour_name , memo.memo_content 
     FROM memo 
     LEFT JOIN colour ON memo.memo_colour_id=colour.id LEFT JOIN board ON memo.memo_board_id=board.id
     WHERE board.board_name=?;`,
@@ -43,7 +43,7 @@ memoRouter.get('/byboardid/:boardId', async (req, res) => {
   const { boardId } = req.params;
   try {
     const [memos] = await db.query(
-      `SELECT memo.id,board.board_name,memo.memo_board_id, colour.colour_name , memo.memo_content 
+      `SELECT memo.id,board.board_name,memo.memo_board_id, memo.memo_colour_id,colour.colour_name , memo.memo_content 
     FROM memo 
     LEFT JOIN colour ON memo.memo_colour_id=colour.id LEFT JOIN board ON memo.memo_board_id=board.id
     WHERE board.id=?;`,
@@ -63,7 +63,7 @@ memoRouter.get('/:id', async (req, res) => {
   try {
     const [memo] = await db.query(
       `
-      SELECT memo.id,board.board_name, colour.colour_name , memo.memo_content 
+      SELECT memo.id,board.board_name, colour.id, colour.colour_name , memo.memo_content 
     FROM memo 
     LEFT JOIN colour ON memo.memo_colour_id=colour.id LEFT JOIN board ON memo.memo_board_id=board.id
       WHERE id=?
